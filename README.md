@@ -4,6 +4,13 @@
 >
 > 「行迹」是一款面向国内 60 座城市的旅行规划小程序：输入出发地、目的地、天数与预算，即可一键生成按天分色的行程路线图，支持 AI / 智能双模式规划、景点评论讨论、云端「想去」共享，以及 6 位搭子码邀请好友一起改行程。
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-12584a.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/在线体验-GitHub%20Pages-12584a)](https://mei117-a.github.io/xingji-travel-planner/)
+[![Mini Program](https://img.shields.io/badge/微信小程序-5%20个页面-07c160)](miniprogram/app.json)
+[![CI](https://github.com/Mei117-a/xingji-travel-planner/actions/workflows/ci.yml/badge.svg)](https://github.com/Mei117-a/xingji-travel-planner/actions/workflows/ci.yml)
+
+**🚀 在线体验（免安装）：<https://mei117-a.github.io/xingji-travel-planner/>**
+
 <div align="center">
 
 ![界面预览](docs/screenshots/web-overview.png)
@@ -38,6 +45,9 @@
 ```
 https://mei117-a.github.io/xingji-travel-planner/
 ```
+
+> 国内网络访问 GitHub Pages 较慢时，可用同版本镜像：
+> https://xingji-trip-99399.app.workbuddy.host/?sharecode=KH4DQKKEJP
 
 ```bash
 git clone https://github.com/Mei117-a/xingji-travel-planner.git
