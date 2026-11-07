@@ -1,0 +1,94 @@
+<view class="page">
+  <view class="slogan-bar">
+    <text class="slogan-text">背上行馕就出发！</text>
+  </view>
+  <view class="card">
+    <view class="sec-title">行程基本信息</view>
+
+    <view class="field">
+      <text class="label">出发城市</text>
+      <picker range="{{cities}}" bindchange="onFromChange">
+        <view class="picker-value">{{fromCity}}</view>
+      </picker>
+    </view>
+    <view class="field">
+      <text class="label">目的地</text>
+      <picker range="{{cities}}" bindchange="onToChange">
+        <view class="picker-value">{{toCity}}</view>
+      </picker>
+    </view>
+
+    <view class="row">
+      <view class="field grow">
+        <text class="label">天数</text>
+        <input class="input" type="number" value="{{days}}" bindinput="onDays" />
+      </view>
+      <view class="field grow">
+        <text class="label">人数</text>
+        <input class="input" type="number" value="{{travelers}}" bindinput="onTravelers" />
+      </view>
+      <view class="field grow">
+        <text class="label">总预算(元)</text>
+        <input class="input" type="digit" value="{{budget}}" bindinput="onBudget" />
+      </view>
+    </view>
+
+    <view class="row">
+      <view class="field grow">
+        <text class="label">去程</text>
+        <picker range="{{modeLabels}}" value="{{goModeIndex}}" bindchange="onGoModeChange">
+          <view class="picker-value">{{modeLabels[goModeIndex]}}</view>
+        </picker>
+      </view>
+      <view class="field grow">
+        <text class="label">返程</text>
+        <picker range="{{modeLabels}}" value="{{backModeIndex}}" bindchange="onBackModeChange">
+          <view class="picker-value">{{modeLabels[backModeIndex]}}</view>
+        </picker>
+      </view>
+      <view class="field grow">
+        <text class="label">住宿</text>
+        <picker range="{{hotelLabels}}" value="{{hotelIndex}}" bindchange="onHotelChange">
+          <view class="picker-value">{{hotelLabels[hotelIndex]}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="field">
+      <text class="label">偏好标签（影响景点安排）</text>
+      <view class="chips">
+        <view
+          wx:for="{{prefChips}}"
+          wx:key="name"
+          class="chip {{item.on ? 'on' : ''}}"
+          data-pref="{{item.name}}"
+          bindtap="togglePref"
+        >{{item.name}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="actions">
+    <button class="btn-primary gen-btn" bindtap="smartGenerate" disabled="{{generating}}">智能生成行程</button>
+    <button class="btn-ghost gen-btn" bindtap="aiGenerate" disabled="{{generating}}">
+      {{aiState === 'streaming' ? 'AI 正在规划…' : 'AI 帮我规划'}}
+    </button>
+    <view class="hint center">智能生成：离线秒出 · AI 规划：由大模型按偏好定制，稍等几秒</view>
+  </view>
+
+  <view class="card" wx:if="{{aiState === 'streaming' || aiState === 'error'}}">
+    <view class="sec-title">{{aiState === 'error' ? 'AI 规划遇到问题' : 'AI 正在书写行程'}}</view>
+    <scroll-view scroll-y class="ai-stream" wx:if="{{aiState === 'streaming'}}">
+      <text>{{aiText}}</text>
+    </scroll-view>
+    <view wx:if="{{aiState === 'error'}}">
+      <text class="ai-error">{{aiError}}</text>
+      <button class="btn-ghost gen-btn" bindtap="useLocalInstead">先用智能生成顶上</button>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="sec-title">想先看看目的地有什么？</view>
+    <button class="btn-ghost gen-btn" bindtap="goSpots">浏览 {{toCity}} 的景点与评论</button>
+  </view>
+</view>

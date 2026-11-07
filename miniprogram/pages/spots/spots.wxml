@@ -1,0 +1,57 @@
+<view class="page">
+  <view class="city-bar">
+    <picker range="{{cities}}" value="{{cityIndex}}" bindchange="onCityChange">
+      <view class="city-pick">{{city}} ›</view>
+    </picker>
+    <text class="count">{{spots.length}} 个景点 · 图片为 AI 插画</text>
+  </view>
+
+  <view class="filter-bar">
+    <view class="chips">
+      <view
+        wx:for="{{filters}}"
+        wx:key="*this"
+        class="chip {{filterIndex === index ? 'on' : ''}}"
+        data-i="{{index}}"
+        bindtap="onFilterChange"
+      >{{item}}</view>
+      <view class="chip {{onlyFav ? 'on' : ''}}" bindtap="onToggleFavOnly">
+        只看收藏 {{favCount > 0 ? '· ' + favCount : ''}}
+      </view>
+    </view>
+  </view>
+
+  <view
+    class="card spot-card"
+    wx:for="{{shown}}"
+    wx:key="idx"
+    data-name="{{item.name}}"
+    bindtap="openDetail"
+  >
+    <image wx:if="{{item.img}}" class="spot-img" src="{{item.img}}" mode="aspectFill" lazy-load="{{true}}" />
+    <view wx:else class="spot-img placeholder">
+      <text class="ph-char">{{item.initial}}</text>
+    </view>
+    <view class="fav {{item.fav ? 'on' : ''}}" catchtap="onToggleFav" data-name="{{item.name}}">
+      {{item.fav ? '♥' : '♡'}}
+    </view>
+    <view class="spot-body">
+      <view class="spot-top">
+        <text class="spot-name">{{item.name}}</text>
+        <text class="spot-tag">{{item.tag}}</text>
+      </view>
+      <text class="spot-desc">{{item.desc}}</text>
+      <view class="spot-meta">
+        <text class="meta-item ticket">{{item.ticket}}</text>
+        <text class="meta-item">开放 {{item.hours}}</text>
+        <text class="meta-item">建议 {{item.dur}}h</text>
+        <text wx:if="{{item.want > 0}}" class="meta-item want">{{item.want}} 人想去</text>
+      </view>
+      <text class="spot-more">看图片详情与评论 ›</text>
+    </view>
+  </view>
+
+  <view wx:if="{{!shown.length}}" class="empty-tip">
+    {{onlyFav ? '还没有收藏这个城市的景点\n去列表里点 ♡ 收藏吧' : '这个标签下暂无景点，换个筛选试试'}}
+  </view>
+</view>

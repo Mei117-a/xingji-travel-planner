@@ -1,0 +1,22 @@
+# 依赖与构建产物
+node_modules/
+miniprogram_npm/
+miniprogram/miniprogram_npm/
+
+# WorkBuddy 本地会话与平台产物
+.workbuddy/
+*.genie
+.wbapp_*.privacy.json
+
+# 开发期原始大图（成品图已压缩进 miniprogram/assets）
+_rawimg/
+
+# 微信开发者工具本机配置
+project.private.config.json
+project.private.config.json.*
+
+# 日志与系统文件
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db

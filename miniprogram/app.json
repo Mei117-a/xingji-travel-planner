@@ -1,0 +1,31 @@
+{
+  "pages": [
+    "pages/plan/plan",
+    "pages/trip/trip",
+    "pages/spots/spots",
+    "pages/detail/detail",
+    "pages/about/about"
+  ],
+  "window": {
+    "navigationBarTitleText": "行迹 · 旅行规划",
+    "navigationBarBackgroundColor": "#12584a",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f7f4ef",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#9c9287",
+    "selectedColor": "#12584a",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/plan/plan", "text": "规划" },
+      { "pagePath": "pages/trip/trip", "text": "行程" },
+      { "pagePath": "pages/spots/spots", "text": "景点" },
+      { "pagePath": "pages/about/about", "text": "关于" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

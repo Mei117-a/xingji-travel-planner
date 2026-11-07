@@ -1,0 +1,50 @@
+.city-bar {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding: 24rpx 28rpx 4rpx;
+}
+.city-pick { font-size: 40rpx; font-weight: 600; color: #12584a; }
+.count { font-size: 22rpx; color: #9c9287; }
+
+.filter-bar { padding: 16rpx 28rpx 0; }
+.filter-bar .chips { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4rpx; }
+.filter-bar .chip { flex: 0 0 auto; }
+
+.spot-card { display: flex; gap: 20rpx; padding: 20rpx; position: relative; }
+.fav {
+  position: absolute; top: 16rpx; right: 20rpx;
+  width: 64rpx; height: 64rpx; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34rpx; color: #cbc2b6; background: rgba(255, 255, 255, 0.92);
+  border: 1rpx solid #eae3d8;
+}
+.fav.on { color: #e2574c; border-color: #f3c6c2; background: #fdf0ee; }
+.spot-img {
+  width: 200rpx; height: 200rpx; border-radius: 16rpx; flex: 0 0 auto;
+  background: #f4efe7;
+}
+.placeholder {
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(140deg, #eaf4f0, #d8ebe3);
+}
+.ph-char { font-size: 64rpx; font-weight: 600; color: #12584a; }
+.spot-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.spot-top { display: flex; align-items: center; gap: 12rpx; }
+.spot-name { font-size: 30rpx; font-weight: 600; flex: 1; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.spot-tag {
+  flex: 0 0 auto; font-size: 20rpx; color: #12584a; background: #eaf4f0;
+  padding: 2rpx 12rpx; border-radius: 8rpx;
+}
+.spot-desc {
+  font-size: 24rpx; color: #5f574d; margin-top: 8rpx;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.spot-meta { display: flex; flex-wrap: wrap; gap: 8rpx; margin-top: 10rpx; }
+.meta-item {
+  font-size: 20rpx; color: #9c9287; background: #fbf9f5;
+  padding: 2rpx 10rpx; border-radius: 6rpx;
+}
+.meta-item.ticket { color: #a9761a; background: #fdf4e3; }
+.meta-item.want { color: #e2574c; background: #fdf0ee; }
+.spot-more { margin-top: auto; font-size: 22rpx; color: #1c7a67; padding-top: 8rpx; }

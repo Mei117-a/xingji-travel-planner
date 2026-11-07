@@ -1,0 +1,155 @@
+<view class="page">
+  <block wx:if="{{hasPlan}}">
+    <view class="card">
+      <view class="sum-row">
+        <view class="sum-main">
+          <text class="sum-label">预计总花费</text>
+          <text class="sum-total {{totals.over ? 'bad' : ''}}">{{totals.totalText}}</text>
+        </view>
+        <view class="sum-side">
+          <text class="sum-remain {{totals.over ? 'bad' : ''}}">剩余 {{totals.remainText}}</text>
+          <text class="sum-src">{{sourceLabel}}</text>
+        </view>
+      </view>
+      <view class="hint">{{summaryLines[0]}}</view>
+    </view>
+
+    <view class="card">
+      <view class="sec-title">旅游搭子 · 一起改这份计划</view>
+      <block wx:if="{{!buddyCode}}">
+        <view class="buddy-row">
+          <button class="btn-primary buddy-btn" size="mini" bindtap="onInviteBuddy" disabled="{{buddyBusy}}">邀请搭子</button>
+          <input
+            class="join-input"
+            value="{{joinCode}}"
+            placeholder="输入搭子码加入"
+            maxlength="6"
+            bindinput="onJoinInput"
+          />
+          <button class="btn-ghost buddy-btn" size="mini" bindtap="onJoin" disabled="{{buddyBusy}}">加入</button>
+        </view>
+        <view class="hint">邀请后生成 6 位搭子码，大家都能编辑行程并同步给彼此；也可以点右上角转发直接邀请</view>
+      </block>
+      <block wx:else>
+        <view class="buddy-code-row">
+          <text class="buddy-code-label">搭子码</text>
+          <text class="buddy-code">{{buddyCode}}</text>
+          <button class="btn-ghost" size="mini" bindtap="onCopyCode">复制</button>
+        </view>
+        <view class="hint buddy-hint">把码发给朋友，或点右上角转发直接邀请 · 最后修改：{{buddyBy}} · {{buddyAt}}</view>
+        <view wx:if="{{buddyLocal}}" class="hint buddy-hint">本机演示模式：搭子码只在本机有效，配置云服务后可跨设备同步</view>
+        <view class="buddy-row">
+          <button class="btn-ghost" size="mini" bindtap="onPullBuddy" disabled="{{buddyBusy}}">拉取搭子改动</button>
+          <button class="btn-primary" size="mini" bindtap="onSyncBuddy" disabled="{{buddyBusy}}">同步我的修改</button>
+        </view>
+      </block>
+    </view>
+
+    <view class="card" wx:if="{{hasSpots}}">
+      <view class="sec-title">路线图 · 点标记看景点与评论</view>
+      <map
+        class="map"
+        latitude="{{mapCenter.lat}}"
+        longitude="{{mapCenter.lng}}"
+        scale="10"
+        markers="{{markers}}"
+        polyline="{{polyline}}"
+        bindmarkertap="onMarkerTap"
+        show-location="{{false}}"
+      ></map>
+      <view class="hint">不同颜色虚线 = 不同天的动线 · 共 {{markers.length}} 个景点已上地图，点标记看景点与评论</view>
+    </view>
+
+    <view class="card">
+      <view class="sec-title">行程规划图 · 一张图发群里讨论</view>
+      <button class="btn-primary poster-btn" bindtap="onMakePoster" disabled="{{posterBusy}}">
+        {{posterBusy ? '正在生成…' : '生成行程规划图'}}
+      </button>
+      <view class="hint">借用地标配色与景点图库，按天拼出「景点图片 + 动线」的海报图，生成后可保存到相册或长按转发</view>
+    </view>
+
+    <view class="card" wx:if="{{tips.length}}">
+      <view class="sec-title">AI 贴士</view>
+      <view class="tip" wx:for="{{tips}}" wx:key="*this">
+        <text class="tip-dot">·</text>
+        <text class="tip-text">{{item}}</text>
+      </view>
+    </view>
+
+    <view class="day card" wx:for="{{days}}" wx:for-item="day" wx:key="di">
+      <view class="day-head">
+        <text class="day-badge">DAY {{day.di + 1}}</text>
+        <text class="day-title">{{day.title}}</text>
+        <text class="day-sub">{{day.dateLabel}} · {{day.subText}}</text>
+      </view>
+      <view
+        class="item {{item.isSys ? 'sys' : ''}}"
+        wx:for="{{day.items}}"
+        wx:for-item="item"
+        wx:key="id"
+      >
+        <text class="icon">{{item.icon}}</text>
+        <input
+          wx:if="{{!item.isSys}}"
+          class="time"
+          type="text"
+          value="{{item.time}}"
+          data-day="{{item.di}}"
+          data-item="{{item.ii}}"
+          data-field="time"
+          bindinput="onItemInput"
+          bindblur="onItemDone"
+          placeholder="时间"
+        />
+        <text wx:else class="syslabel">{{item.time || item.icon}}</text>
+        <view class="mid">
+          <input
+            wx:if="{{!item.isSys}}"
+            class="txt"
+            value="{{item.text}}"
+            data-day="{{item.di}}"
+            data-item="{{item.ii}}"
+            data-field="text"
+            bindinput="onItemInput"
+            bindblur="onItemDone"
+            placeholder="要做点什么"
+          />
+          <text wx:else class="sys-txt">{{item.text}}</text>
+          <view class="meta" wx:if="{{item.isSpot && item.desc}}">
+            <text class="meta-text" catchtap="onItemTap" data-spot="{{item.text}}">{{item.desc}} · 看图片和评论 ›</text>
+          </view>
+        </view>
+        <view class="right">
+          <view class="cost" wx:if="{{!item.isSys}}">
+            <text class="yen">¥</text>
+            <input
+              class="cost-input"
+              type="digit"
+              value="{{item.cost}}"
+              data-day="{{item.di}}"
+              data-item="{{item.ii}}"
+              data-field="cost"
+              bindinput="onItemInput"
+              bindblur="onItemDone"
+            />
+          </view>
+          <text class="amount {{item.isSys ? '' : 'per'}}">{{item.amountText}}</text>
+          <view class="ops" wx:if="{{!item.isSys}}">
+            <text class="op" data-day="{{item.di}}" data-item="{{item.ii}}" data-dir="up" catchtap="onMove">↑</text>
+            <text class="op" data-day="{{item.di}}" data-item="{{item.ii}}" data-dir="down" catchtap="onMove">↓</text>
+            <text class="op del" data-day="{{item.di}}" data-item="{{item.ii}}" catchtap="onDelete">×</text>
+          </view>
+        </view>
+      </view>
+      <button class="add-btn" size="mini" data-day="{{day.di}}" bindtap="onAdd">+ 添加一条安排</button>
+    </view>
+  </block>
+
+  <view wx:else class="empty-tip">
+    <text>还没有行程</text>
+    <text class="empty-sub">去「规划」页填写信息，一键生成或让 AI 帮你安排</text>
+    <button class="btn-primary empty-btn" bindtap="goPlan">去规划</button>
+  </view>
+
+  <canvas type="2d" id="posterCanvas" class="poster-canvas"></canvas>
+</view>

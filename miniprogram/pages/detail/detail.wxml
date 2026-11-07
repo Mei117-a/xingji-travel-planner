@@ -1,0 +1,79 @@
+<view class="page" wx:if="{{loaded}}">
+  <view class="hero">
+    <image wx:if="{{img}}" class="hero-img" src="{{img}}" mode="aspectFill" />
+    <view wx:else class="hero-img placeholder">
+      <text class="ph-char">{{initial}}</text>
+    </view>
+    <view class="hero-shade"></view>
+    <view class="fav {{fav ? 'on' : ''}}" catchtap="onToggleFav">{{fav ? '♥' : '♡'}}<text wx:if="{{wantText}}" class="fav-num">{{wantText}}</text></view>
+    <view class="hero-info">
+      <text class="hero-name">{{name}}</text>
+      <text class="hero-city">{{city}} · {{tag}}</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="info-row" wx:if="{{ticket}}"><text class="info-k">门票</text><text class="info-v">{{ticket}}</text></view>
+    <view class="info-row" wx:if="{{hours}}"><text class="info-k">开放</text><text class="info-v">{{hours}}</text></view>
+    <view class="info-row" wx:if="{{dur}}"><text class="info-k">建议游玩</text><text class="info-v">{{dur}}</text></view>
+    <view class="info-row"><text class="info-k">简介</text><text class="info-v">{{desc}}</text></view>
+    <view class="hint">门票与开放时间为参考值，出行前请以官方信息为准；图片为 AI 插画</view>
+  </view>
+
+  <view class="card">
+    <view class="sec-title">一起讨论（{{commentCount}}）</view>
+    <view wx:if="{{localMode}}" class="local-tip">本机演示模式：评论与点赞存在本机，配置云服务后即可多人共享</view>
+
+    <view class="quick-bar">
+      <text class="quick-label">快速开聊：</text>
+      <view
+        wx:for="{{quickTags}}"
+        wx:key="*this"
+        class="quick-chip"
+        data-tag="{{item}}"
+        bindtap="onQuickTag"
+      >{{item}}</view>
+    </view>
+
+    <view class="form">
+      <input class="nick" placeholder="昵称（选填）" value="{{nick}}" maxlength="12" bindinput="onNick" />
+      <textarea
+        class="content"
+        placeholder="分享你的玩法、排队攻略、踩坑经验…"
+        value="{{content}}"
+        maxlength="200"
+        bindinput="onContent"
+      ></textarea>
+      <view class="form-foot">
+        <text class="count">{{content.length}}/200</text>
+        <button class="btn-primary post-btn" size="mini" bindtap="post" disabled="{{posting}}">
+          {{posting ? '发布中…' : '发布评论'}}
+        </button>
+      </view>
+    </view>
+
+    <view wx:if="{{commentCount > 1}}" class="sort-bar">
+      <view class="sort-item {{sortMode === 'new' ? 'on' : ''}}" data-mode="new" bindtap="onSortChange">最新</view>
+      <view class="sort-item {{sortMode === 'hot' ? 'on' : ''}}" data-mode="hot" bindtap="onSortChange">最热</view>
+    </view>
+
+    <view wx:if="{{loadingComments}}" class="loading">评论加载中…</view>
+    <view wx:elif="{{commentError}}" class="c-error">
+      <text>{{commentError}}</text>
+      <button class="retry" size="mini" bindtap="loadComments">重试</button>
+    </view>
+    <view wx:elif="{{!comments.length}}" class="loading">还没有评论，来抢第一条吧</view>
+    <block wx:else>
+      <view class="comment" wx:for="{{comments}}" wx:key="id">
+        <view class="c-head">
+          <text class="c-nick">{{item.nickname}}</text>
+          <view class="like {{item.liked ? 'on' : ''}}" data-id="{{item.id}}" catchtap="onLike">
+            {{item.liked ? '❤' : '♡'}} {{item.likes > 0 ? item.likes : ''}}
+          </view>
+        </view>
+        <text class="c-content">{{item.content}}</text>
+        <text class="c-time">{{item.time}}</text>
+      </view>
+    </block>
+  </view>
+</view>

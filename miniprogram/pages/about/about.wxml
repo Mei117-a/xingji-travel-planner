@@ -1,0 +1,51 @@
+<view class="page">
+  <view class="hero">
+    <view class="logo">迹</view>
+    <text class="app-name">行迹</text>
+    <text class="slogan">背上行馕就出发！</text>
+    <text class="app-sub">自定义行程 · AI 规划 · 景点讨论</text>
+  </view>
+
+  <view class="card team-card">
+    <view class="team-head">
+      <text class="team-label">参赛团队</text>
+    </view>
+    <view class="team-name-row">
+      <text class="team-name">{{teamName}}</text>
+      <text class="team-count">{{members.length}} 人</text>
+    </view>
+
+    <view class="member-list">
+      <view
+        class="member {{item === leader ? 'leader' : ''}}"
+        wx:for="{{members}}"
+        wx:key="*this"
+      >
+        <text class="m-name">{{item}}</text>
+        <text wx:if="{{item === leader}}" class="m-badge">负责人</text>
+      </view>
+    </view>
+
+    <view class="advisor">
+      <text class="info-k">指导老师</text>
+      <text class="info-v">{{advisor}}</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="sec-title">项目简介</view>
+    <text class="desc">「行迹」面向自由行用户：填写出发地、天数、预算与偏好即可一键生成按天行程；也可以让 AI 帮忙规划并逐字流式输出。内置 60 个城市、220 余个真实著名景点（含参考门票、开放时间、建议时长），行程页以地图连线展示每天的游玩路线；每个景点都有图片详情与评论讨论区，旅行者可以互相分享攻略与踩坑经验。</text>
+    <view class="feat-row">
+      <view class="feat">智能 / AI 双模式规划</view>
+      <view class="feat">真实景点库与地图路线</view>
+      <view class="feat">评论互动讨论区</view>
+    </view>
+  </view>
+
+  <view class="foot">
+    <text class="hint">门票与开放时间为参考值，出行前请以官方信息为准</text>
+    <text class="hint">景点图片为 AI 插画 · {{version}}</text>
+  </view>
+
+  <button class="btn-ghost share-btn" open-type="share">把行迹分享给朋友</button>
+</view>
